@@ -1,0 +1,11 @@
+[HTTP]
+Port = "8081"
+
+[DB]
+Host = "localhost"
+Name = "main"
+User = "postgres"
+Password = "postgres"
+
+[Log]
+Level = "debug"

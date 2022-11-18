@@ -19,18 +19,18 @@ import (
 func Run(cfg *config.Config) {
 	logger := logger.New(cfg.Log.Level)
 
-	connectionString := fmt.Sprintf(
+	db, err := sql.Open("postgres", fmt.Sprintf(
 		"postgres://%s:%s@%s/%s",
 		cfg.DB.User, cfg.DB.Password, cfg.DB.Host, cfg.DB.Name,
-	)
-
-	db, err := sql.Open("postgres", connectionString)
+	))
 	if err != nil {
 		logger.Fatal(err)
 	}
 	defer db.Close()
 
-	useCase := usecase.New(repository.New(db))
+	repository := repository.New(db)
+
+	useCase := usecase.New(repository)
 
 	handler := gin.New()
 	http.NewRouter(handler, useCase, logger)
@@ -41,13 +41,13 @@ func Run(cfg *config.Config) {
 
 	select {
 	case s := <-interrupt:
-		logger.Info("app - Run - signal: " + s.String())
+		logger.Info("signal: " + s.String())
 	case err = <-httpServer.Notify():
-		logger.Error(fmt.Errorf("app - Run - httpServer.Notify: %w", err))
+		logger.Error(fmt.Errorf("httpServer.Notify: %w", err))
 	}
 
 	err = httpServer.Shutdown()
 	if err != nil {
-		logger.Error(fmt.Errorf("app - Run - httpServer.Shutdown: %w", err))
+		logger.Error(fmt.Errorf("httpServer.Shutdown: %w", err))
 	}
 }

@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+//модель юзера
 type User struct {
 	ID        uuid.UUID `json:"id"`
 	FullName  string    `json:"fullName"`

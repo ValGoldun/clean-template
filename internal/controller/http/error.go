@@ -1,11 +1,18 @@
 package http
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
 
-type response struct {
+type errorResponse struct {
 	Error string `json:"error"`
 }
 
-func errorResponse(c *gin.Context, code int, msg string) {
-	c.AbortWithStatusJSON(code, response{msg})
+func (c *controller) internalError(ctx *gin.Context, err error, msg string) {
+	//реальную ошибку пишем в лог, в ответе ее быть не должно
+	c.logger.Error(err)
+
+	//отвечаем статус кодом - 500 и человекочитаемой ошибкой
+	ctx.AbortWithStatusJSON(http.StatusInternalServerError, errorResponse{msg})
 }

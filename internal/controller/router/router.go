@@ -26,5 +26,5 @@ func (router *Router) ApplyUserRoutes(useCase usecase.User) {
 	controller := user.New(useCase)
 
 	group := router.Engine.Group("/api/v1/user")
-	group.GET("", controller.Users)
+	group.GET("/list", controller.GetUsers)
 }

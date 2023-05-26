@@ -1,5 +1,5 @@
 [HTTP]
-Port = ":8080"
+Addr = ":8080"
 
 [DB]
 Host = "localhost"

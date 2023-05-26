@@ -5,10 +5,8 @@ import (
 	"github.com/ValGoldun/clean-template/config"
 	"github.com/ValGoldun/clean-template/internal/controller/router"
 	"go.uber.org/fx"
-	"log"
 	"net"
 	"net/http"
-	"os"
 )
 
 func ProvideServer(router *router.Router, cfg config.Config) *http.Server {
@@ -22,13 +20,7 @@ func InvokeServer(lc fx.Lifecycle, server *http.Server) {
 			if err != nil {
 				return err
 			}
-			go func() {
-				err = server.Serve(ln)
-				if err != nil {
-					log.Println(err)
-					os.Exit(1)
-				}
-			}()
+			go server.Serve(ln)
 			return nil
 		},
 		OnStop: func(ctx context.Context) error {

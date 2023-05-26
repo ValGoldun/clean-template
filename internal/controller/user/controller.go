@@ -17,11 +17,11 @@ func New(useCase usecase.User) Controller {
 	}
 }
 
-func (c Controller) Users(ctx *gin.Context) {
+func (c Controller) GetUsers(ctx *gin.Context) {
 	users, err := c.useCase.GetUsers(ctx.Request.Context())
 	if err != nil {
 		log.Println(err)
-		ctx.Abort()
+		ctx.AbortWithStatus(http.StatusInternalServerError)
 		return
 	}
 

@@ -3,7 +3,7 @@ package di
 import (
 	"context"
 	"github.com/ValGoldun/clean-template/config"
-	"github.com/ValGoldun/clean-template/internal/controller/router"
+	"github.com/ValGoldun/clean-template/internal/router"
 	"go.uber.org/fx"
 	"net"
 	"net/http"

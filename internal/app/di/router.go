@@ -1,7 +1,7 @@
 package di
 
 import (
-	"github.com/ValGoldun/clean-template/internal/controller/router"
+	"github.com/ValGoldun/clean-template/internal/router"
 	"github.com/ValGoldun/clean-template/internal/usecase"
 )
 

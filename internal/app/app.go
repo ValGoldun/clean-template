@@ -9,6 +9,7 @@ func Run() {
 	fx.New(
 		fx.Provide(
 			di.ProvideConfig,
+			di.ProvideClerk,
 
 			di.ProvideUserRepository,
 			di.ProvideUserUseCase,

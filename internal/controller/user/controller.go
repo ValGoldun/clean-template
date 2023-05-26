@@ -2,16 +2,17 @@ package user
 
 import (
 	"github.com/ValGoldun/clean-template/internal/usecase"
+	"github.com/ValGoldun/clean-template/pkg/clerk"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 )
 
 type Controller struct {
 	useCase usecase.User
+	clerk   clerk.Clerk
 }
 
-func New(useCase usecase.User) Controller {
+func New(useCase usecase.User, clerk clerk.Clerk) Controller {
 	return Controller{
 		useCase: useCase,
 	}
@@ -20,8 +21,7 @@ func New(useCase usecase.User) Controller {
 func (c Controller) GetUsers(ctx *gin.Context) {
 	users, err := c.useCase.GetUsers(ctx.Request.Context())
 	if err != nil {
-		log.Println(err)
-		ctx.AbortWithStatus(http.StatusInternalServerError)
+		c.clerk.Problem(ctx, err)
 		return
 	}
 

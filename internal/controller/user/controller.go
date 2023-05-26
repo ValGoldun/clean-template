@@ -15,6 +15,7 @@ type Controller struct {
 func New(useCase usecase.User, clerk clerk.Clerk) Controller {
 	return Controller{
 		useCase: useCase,
+		clerk:   clerk,
 	}
 }
 
